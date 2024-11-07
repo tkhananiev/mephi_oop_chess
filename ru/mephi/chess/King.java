@@ -10,12 +10,13 @@ public class King extends ChessPiece{
 
     @Override
     boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn){
-        if (toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7){
-            return false;
-        } else if ((line == toLine) && (column == toColumn)) {
+        if ((toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7)
+                || ((line == toLine) && (column == toColumn))) {
             return false;
         }
-        else if ((line - toLine <= 1 && toLine - line <= 1) && (column - toColumn <= 1 && toColumn - column <= 1)) {
+        else if ((line - toLine <= 1 && toLine - line <= 1)
+                && (column - toColumn <= 1 && toColumn - column <= 1)
+                && chessBoard.isPathClear(line, column, toLine, toColumn)) {
             return true;
         }
         else return false;
@@ -30,8 +31,8 @@ public class King extends ChessPiece{
 
         if (line < 0 || line > 7 || column < 0 || column > 7) return false;
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
                 ChessPiece chessPiece = chessBoard.board[i][j];
 
                 if (chessPiece != null && !chessPiece.getColor().equals(this.color)) {

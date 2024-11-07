@@ -10,13 +10,13 @@ public class Horse extends ChessPiece{
 
     @Override
     boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn){
-        if (toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7){
-            return false;
-        } else if ((line == toLine) && (column == toColumn)) {
+        if ((toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7)
+                || ((line == toLine) && (column == toColumn))) {
             return false;
         }
-        else if ((Math.abs(line - toLine) == 1 && Math.abs(column - toColumn) == 2)
-                || (Math.abs(line - toLine) == 2 && Math.abs(column - toColumn) == 1)){
+        else if (((Math.abs(line - toLine) == 1 && Math.abs(column - toColumn) == 2)
+                || (Math.abs(line - toLine) == 2 && Math.abs(column - toColumn) == 1))
+                && chessBoard.isPathClear(line, column, toLine, toColumn)){
             return true;
         }
         else return false;

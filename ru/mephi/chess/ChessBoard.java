@@ -22,10 +22,10 @@ public class ChessBoard {
                 board[startLine][startColumn] = null; // set null to previous cell
                 this.nowPlayer = this.nowPlayerColor().equals("White") ? "Black" : "White";
 
-                if(!(board[0][0].getColor().equals("White") && board[0][0].getSymbol().equals("R"))){
+                if(!board[0][0].getColor().equals("White") && !board[0][0].getSymbol().equals("R")){
                     board[0][0].check = false;
                 }
-                if(!(board[0][7].getColor().equals("White") && board[0][7].getSymbol().equals("R"))){
+                if(!board[0][7].getColor().equals("White") && !board[0][7].getSymbol().equals("R")){
                     board[0][7].check = false;
                 }
                 if(!(board[7][0].getColor().equals("Black") && board[7][0].getSymbol().equals("R"))){
@@ -156,6 +156,23 @@ public class ChessBoard {
             }
             else return false;
         }
+    }
+
+    public boolean isPathClear(int line, int column, int toLine, int toColumn) {
+        int rowDirection = Integer.signum(toLine - line);
+        int colDirection = Integer.signum(toColumn - column);
+
+        int currentRow = line + rowDirection;
+        int currentCol = column + colDirection;
+
+        while (currentRow != toLine || currentCol != toColumn) {
+            if (board[currentRow][currentCol] != null) {
+                return false; // Путь не свободен
+            }
+            currentRow += rowDirection;
+            currentCol += colDirection;
+        }
+        return true; // Путь свободен
     }
 }
 

@@ -10,12 +10,12 @@ public class Rook extends ChessPiece{
 
     @Override
     boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn){
-        if (toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7){
-            return false;
-        } else if ((line == toLine) && (column == toColumn)) {
+        if ((toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7)
+                || ((line == toLine) && (column == toColumn))) {
             return false;
         }
-        else if ((line == toLine) || (column == toColumn)) {
+        else if ((line == toLine) || (column == toColumn)
+                && chessBoard.isPathClear(line, column, toLine, toColumn)) {
             return true;
         }
         else return false;

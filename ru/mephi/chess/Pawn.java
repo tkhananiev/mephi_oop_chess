@@ -10,18 +10,18 @@ public class Pawn extends ChessPiece{
 
     @Override
     boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn){
-        if (toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7){
-            return false;
-        } else if ((line == toLine) && (column == toColumn)) {
+        if ((toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7)
+                || ((line == toLine) && (column == toColumn))) {
             return false;
         }
-        else if (color.equals("White") && line == 1 && column > 0 && column <= 7 && toLine == line + 2){
+        else if (((color.equals("White") && toLine == line + 1)
+                || (color.equals("White") && toLine == line + 2))
+                && chessBoard.isPathClear(line, column, toLine, toColumn)){
             return true;
         }
-        else if (color.equals("Black") && line == 6 && column > 0 && column <= 7 && toLine == line - 2){
-            return true;
-        }
-        else if (toLine == line + 1){
+        else if ((color.equals("Black") && toLine == line - 1)
+                || (color.equals("Black") && toLine == line - 2)
+                && chessBoard.isPathClear(line, column, toLine, toColumn)){
             return true;
         }
         else return false;

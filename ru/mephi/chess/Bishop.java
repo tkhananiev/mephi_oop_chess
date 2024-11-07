@@ -10,12 +10,12 @@ public class Bishop extends ChessPiece{
 
     @Override
     boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn){
-        if (toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7){
-            return false;
-        } else if ((line == toLine) && (column == toColumn)) {
+        if ((toLine < 0 || toLine > 7 || toColumn < 0 || toColumn > 7)
+                || ((line == toLine) && (column == toColumn))) {
             return false;
         }
-        else if ((line + toColumn == column + toLine) || (line + column == toLine + toColumn)){
+        else if ((line + toColumn == column + toLine) || (line + column == toLine + toColumn)
+                && chessBoard.isPathClear(line, column, toLine, toColumn)){
             return true;
         }
         else return false;
