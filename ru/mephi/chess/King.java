@@ -16,7 +16,7 @@ public class King extends ChessPiece{
         }
         else if ((line - toLine <= 1 && toLine - line <= 1)
                 && (column - toColumn <= 1 && toColumn - column <= 1)
-                && chessBoard.isPathClear(line, column, toLine, toColumn)) {
+                && chessBoard.isPathClear(line, column, toLine, toColumn) ) {
             return true;
         }
         else return false;
@@ -26,17 +26,15 @@ public class King extends ChessPiece{
     String getSymbol(){
         return "K";
     }
-
     public boolean isUnderAttack(ChessBoard chessBoard, int line, int column) {
 
         if (line < 0 || line > 7 || column < 0 || column > 7) return false;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
 
-        for (int i = 0; i <= 7; i++) {
-            for (int j = 0; j <= 7; j++) {
-                ChessPiece chessPiece = chessBoard.board[i][j];
-
-                if (chessPiece != null && !chessPiece.getColor().equals(this.color)) {
-                    if (chessPiece.canMoveToPosition(chessBoard, i, j, line, column)) {
+                ChessPiece chessField = chessBoard.board[i][j];
+                if (chessField != null && !chessField.getColor().equals(this.color)) {
+                    if (chessField.canMoveToPosition(chessBoard, i, j, line, column)) {
                         return true;
                     }
                 }
