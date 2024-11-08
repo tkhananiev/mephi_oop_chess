@@ -12,37 +12,25 @@ public class ChessBoard {
         return this.nowPlayer;
     }
 
-    public boolean moveToPosition(int startLine, int startColumn, int endLine, int endColumn){
-        if (!isPositionOnBoard(startLine, startColumn) || !isPositionOnBoard(endLine, endColumn)) {
+    public boolean moveToPosition(int startLine, int startColumn, int endLine, int endColumn) {
+        if (!checkPos(startLine) && !checkPos(startColumn)){
             return false;
         }
-
-        ChessPiece piece = board[startLine][startColumn];
-        if (piece == null || !piece.getColor().equals(nowPlayer)) {
-            return false;  // Нельзя ходить пустой клеткой или фигурой противника
+        if (!nowPlayer.equals(board[startLine][startColumn].getColor())){
+            return false;
         }
-
-        // Проверяем, может ли фигура переместиться на конечную позицию
-        if (piece.canMoveToPosition(this, startLine, startColumn, endLine, endColumn)) {
-            // Если это король или ладья и они ещё не двигались
-            if (piece instanceof King || piece instanceof Rook) {
-                piece.check = false;  // Отмечаем, что фигура двигалась
+        if (board[startLine][startColumn].canMoveToPosition(this, startLine, startColumn, endLine, endColumn)){
+            if (board[startLine][startColumn] instanceof King || board[startLine][startColumn] instanceof Rook) {
+                board[startLine][startColumn].check = false;  // Отмечаем, что фигура двигалась
             }
-
-            // Выполняем ход: перемещаем фигуру
-            board[endLine][endColumn] = piece;
+            board[endLine][endColumn] = board[startLine][startColumn];
             board[startLine][startColumn] = null;
-
-            // Смена хода игрока
-            nowPlayer = nowPlayer.equals("White") ? "Black" : "White";
+            this.nowPlayer = this.nowPlayerColor().equals("White") ? "Black" : "White";
             return true;
         }
-
         return false;
     }
-    private boolean isPositionOnBoard(int x, int y) {
-        return x >= 0 && x < 8 && y >= 0 && y < 8;
-    }
+
     public void printBoard() {  //print board in console
         System.out.println("Turn " + nowPlayer);
         System.out.println();
