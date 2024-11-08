@@ -12,20 +12,37 @@ public class ChessBoard {
         return this.nowPlayer;
     }
 
-    public boolean moveToPosition(int startLine, int startColumn, int endLine, int endColumn) {
-        if (checkPos(startLine) && checkPos(startColumn)) {
+    public boolean moveToPosition(int startLine, int startColumn, int endLine, int endColumn){
+        if (!isPositionOnBoard(startLine, startColumn) || !isPositionOnBoard(endLine, endColumn)) {
+            return false;
+        }
 
-            if (!nowPlayer.equals(board[startLine][startColumn].getColor())) return false;
+        ChessPiece piece = board[startLine][startColumn];
+        if (piece == null || !piece.getColor().equals(nowPlayer)) {
+            return false;  // Нельзя ходить пустой клеткой или фигурой противника
+        }
 
-            if (board[startLine][startColumn].canMoveToPosition(this, startLine, startColumn, endLine, endColumn)) {
-                board[endLine][endColumn] = board[startLine][startColumn]; // if piece can move, we moved a piece
-                board[startLine][startColumn] = null; // set null to previous cell
-                this.nowPlayer = this.nowPlayerColor().equals("White") ? "Black" : "White";
-                return true;
-            } else return false;
-        } else return false;
+        // Проверяем, может ли фигура переместиться на конечную позицию
+        if (piece.canMoveToPosition(this, startLine, startColumn, endLine, endColumn)) {
+            // Если это король или ладья и они ещё не двигались
+            if (piece instanceof King || piece instanceof Rook) {
+                piece.check = false;  // Отмечаем, что фигура двигалась
+            }
+
+            // Выполняем ход: перемещаем фигуру
+            board[endLine][endColumn] = piece;
+            board[startLine][startColumn] = null;
+
+            // Смена хода игрока
+            nowPlayer = nowPlayer.equals("White") ? "Black" : "White";
+            return true;
+        }
+
+        return false;
     }
-
+    private boolean isPositionOnBoard(int x, int y) {
+        return x >= 0 && x < 8 && y >= 0 && y < 8;
+    }
     public void printBoard() {  //print board in console
         System.out.println("Turn " + nowPlayer);
         System.out.println();
