@@ -21,7 +21,7 @@ public class ChessBoard {
         }
         if (board[startLine][startColumn].canMoveToPosition(this, startLine, startColumn, endLine, endColumn)){
             if (board[startLine][startColumn] instanceof King || board[startLine][startColumn] instanceof Rook) {
-                board[startLine][startColumn].check = false;  // Отмечаем, что фигура двигалась
+                board[startLine][startColumn].check = false;
             }
             board[endLine][endColumn] = board[startLine][startColumn];
             board[startLine][startColumn] = null;
@@ -152,6 +152,9 @@ public class ChessBoard {
             currentCol += colDirection;
         }
         return true;
+    }
+    public static boolean isPositionOnBoard(int x, int y) {
+        return x >= 0 && x <= 7 && y >= 0 && y <= 7;
     }
 }
 
